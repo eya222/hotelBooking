@@ -1,0 +1,114 @@
+<div class="contact-container">
+  <header class="contact-header">
+    <h1>Contact Us</h1>
+    <p>Get in touch with us for any inquiries or assistance</p>
+  </header>
+
+  <div class="contact-content">
+    <section class="contact-info">
+      <div class="info-card">
+        <i class="fas fa-map-marker-alt"></i>
+        <h3>Address</h3>
+        <p>Paradise Beach, Hammamet, Tunisia</p>
+      </div>
+      <div class="info-card">
+        <i class="fas fa-phone"></i>
+        <h3>Phone</h3>
+        <p>(+216) 98 765 432 | (+216) 90 785 634</p>
+      </div>
+      <div class="info-card">
+        <i class="fas fa-envelope"></i>
+        <h3>Email</h3>
+        <p>contact@eiresorts.com</p>
+      </div>
+    </section>
+
+    <section class="contact-form">
+      <h2>Send us a Message</h2>
+      <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input
+            type="text"
+            id="name"
+            formControlName="name"
+            [class.is-invalid]="hasError('name', 'required') || hasError('name', 'minlength')"
+          />
+          <div class="error-message" *ngIf="hasError('name', 'required')">
+            Name is required
+          </div>
+          <div class="error-message" *ngIf="hasError('name', 'minlength')">
+            Name must be at least 3 characters
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            [class.is-invalid]="hasError('email', 'required') || hasError('email', 'email')"
+          />
+          <div class="error-message" *ngIf="hasError('email', 'required')">
+            Email is required
+          </div>
+          <div class="error-message" *ngIf="hasError('email', 'email')">
+            Please enter a valid email address
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <input
+            type="text"
+            id="subject"
+            formControlName="subject"
+            [class.is-invalid]="hasError('subject', 'required') || hasError('subject', 'minlength')"
+          />
+          <div class="error-message" *ngIf="hasError('subject', 'required')">
+            Subject is required
+          </div>
+          <div class="error-message" *ngIf="hasError('subject', 'minlength')">
+            Subject must be at least 5 characters
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea
+            id="message"
+            formControlName="message"
+            rows="5"
+            [class.is-invalid]="hasError('message', 'required') || hasError('message', 'minlength')"
+          ></textarea>
+          <div class="error-message" *ngIf="hasError('message', 'required')">
+            Message is required
+          </div>
+          <div class="error-message" *ngIf="hasError('message', 'minlength')">
+            Message must be at least 20 characters
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-submit">Send Message</button>
+          <button type="button" class="btn-reset" (click)="onReset()">Reset</button>
+        </div>
+
+        <div class="success-message" *ngIf="showSuccessMessage">
+          Thank you for your message! We'll get back to you soon.
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <section class="map-section">
+    <h2>Find Us</h2>
+    <div class="map-container">
+      <!-- Add your map integration here -->
+      <div class="map-placeholder">
+        Map will be displayed here
+      </div>
+    </div>
+  </section>
+</div>

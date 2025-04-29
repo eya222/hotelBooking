@@ -1,0 +1,208 @@
+<div class="user-dashboard">
+  <div class="welcome-section">
+    <h2 class="text-center mb-4">Welcome to E&I Resorts, {{username}}!</h2>
+    <div class="user-info card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Your Profile</h5>
+        <div class="row">
+          <div class="col-md-6">
+            <p><strong>Name:</strong> {{customer.name}}</p>
+            <p><strong>Username:</strong> {{customer.userName}}</p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>Email:</strong> {{customer.email}}</p>
+            <p><strong>Status:</strong> <span class="badge bg-success">Active</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <mat-tab-group mat-align-tabs="center" class="dashboard-tabs">
+    <mat-tab label="Available Rooms">
+      <div class="container mt-4">
+        <!-- Filter Section -->
+        <div class="filter-section card mb-4">
+          <div class="card-body">
+            <h5 class="card-title mb-3">Filter Rooms</h5>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Price Range</label>
+                  <select class="form-select" [(ngModel)]="priceFilter">
+                    <option value="">All Prices</option>
+                    <option value="0-100">$0 - $100</option>
+                    <option value="100-200">$100 - $200</option>
+                    <option value="200-300">$200 - $300</option>
+                    <option value="300+">$300+</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Capacity</label>
+                  <select class="form-select" [(ngModel)]="capacityFilter">
+                    <option value="">All Capacities</option>
+                    <option value="1">1 Guest</option>
+                    <option value="2">2 Guests</option>
+                    <option value="3">3 Guests</option>
+                    <option value="4">4+ Guests</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Room Type</label>
+                  <select class="form-select" [(ngModel)]="typeFilter">
+                    <option value="">All Types</option>
+                    <option value="Standard">Standard</option>
+                    <option value="Deluxe">Deluxe</option>
+                    <option value="Suite">Suite</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-12">
+                <div class="amenities-filter">
+                  <label class="me-2">Amenities:</label>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" [(ngModel)]="amenities.wifi">
+                    <label class="form-check-label">WiFi</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" [(ngModel)]="amenities.tv">
+                    <label class="form-check-label">TV</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" [(ngModel)]="amenities.minibar">
+                    <label class="form-check-label">Minibar</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" [(ngModel)]="amenities.ac">
+                    <label class="form-check-label">AC</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-12 text-center">
+                <button class="btn btn-primary me-2" (click)="applyFilters()">
+                  <i class="fas fa-filter"></i> Apply Filters
+                </button>
+                <button class="btn btn-secondary" (click)="resetFilters()">
+                  <i class="fas fa-undo"></i> Reset
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Room Cards -->
+        <div class="row row-cols-1 row-cols-md-4 g-4">
+          <div class="col" *ngFor="let room of filteredRooms">
+            <div class="card h-100 room-card">
+              <!-- Room Image -->
+              <img [src]="room.image || 'assets/images/img5.jpg'" alt="Room Image for {{ room.roomType }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+        
+              <div class="card-body">
+                <h5 class="card-title">{{ room.roomType }}</h5>
+                <div class="card-text">
+                  <p><i class="fas fa-snowflake"></i> {{ room.category }}</p>
+                  <p><i class="fas fa-users"></i> Capacity: {{ room.noOfGuests }} guests</p>
+                  <p><i class="fas fa-tag"></i> Price: ${{ room.price }}/night</p>
+                </div>
+              </div>
+              <div class="card-footer bg-transparent border-0">
+                <button (click)="bookroom(room.roomNumber)" class="btn btn-primary w-100">
+                  Book Now
+                </button>
+              </div>
+        </div>
+        </div>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Your Bookings">
+      <div class="container mt-4">
+        <div class="bookings-section">
+          <h4 class="text-center mb-4">Your Booking History</h4>
+          
+          <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead class="table-dark">
+                <tr>
+                  <th>Booking ID</th>
+                  <th>Room Number</th>
+                  <th>Check-in</th>
+                  <th>Check-out</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let booking of bookings">
+                  <td>{{ booking.id }}</td>
+                  <td>{{booking.roomNumber}}</td>
+                  <td>{{ booking.checkin | date }}</td>
+                  <td>{{ booking.checkout | date }}</td>
+                  <td>
+                    <span *ngIf="booking.confirmed" class="badge bg-success">True</span>
+                    <span *ngIf="!booking.confirmed">False</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Reviews">
+      <div class="container mt-4">
+        <div class="review-section enhanced-review-section">
+          <h4 class="text-center mb-4">
+            <i class="fas fa-star text-warning me-2"></i>Share Your Experience
+          </h4>
+          <div class="row align-items-center">
+            <div class="col-md-6">
+              <div class="card shadow-lg border-0 mb-4">
+                <div class="card-body">
+                  <form>
+                    <div class="mb-4">
+                      <label class="form-label fw-bold">Rating</label>
+                      <div class="rating enhanced-rating">
+                        <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                        <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                        <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                        <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                        <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                      </div>
+                    </div>
+                    <div class="mb-4">
+                      <label class="form-label fw-bold">Your Review</label>
+                      <textarea class="form-control" rows="4" placeholder="Share your experience with us..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 py-2">Submit Review</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-1 d-none d-md-block">
+              <div class="vr h-100 mx-auto" style="width:3px;background:#e0e0e0;"></div>
+            </div>
+            <div class="col-md-5">
+              <div class="room-image enhanced-room-image">
+                <img src="assets/images/img4.jpg" alt="Luxury Room" class="img-fluid rounded shadow">
+              </div>
+              <div class="enhanced-room-caption">
+                <h5>Luxury Suite</h5>
+                <p>Experience the perfect blend of comfort and elegance</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

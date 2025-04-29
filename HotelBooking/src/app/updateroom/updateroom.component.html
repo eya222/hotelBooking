@@ -1,0 +1,95 @@
+<div class="form-container">
+  <div class="card">
+    <div class="card-header">
+      <h3>Update Room</h3>
+    </div>
+    <div class="card-body">
+      <form #roomform="ngForm" (ngSubmit)="onSubmit(roomform)" class="needs-validation">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="RoomNumber">Room Number</label>
+              <input type="number" class="form-control" id="RoomNumber" name="RoomNumber" [(ngModel)]="newroom.roomNumber" required>
+            </div>
+
+            <div class="form-group">
+              <label>Amenities</label>
+              <div class="form-check" *ngFor="let amenity of amenities">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  [value]="amenity"
+                  (change)="onAmenityChange($event)"
+                  [checked]="selectedAmenities.includes(amenity)"
+                />
+                <label class="form-check-label">{{ amenity }}</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="RoomType">Room Type</label>
+              <select id="RoomType" name="RoomType" class="form-control" [(ngModel)]="newroom.roomType" required>
+                <option value="">Select Room Type</option>
+                <option value="Standard Queen">Standard Queen</option>
+                <option value="Standard King">Standard King</option>
+                <option value="Standard">Standard</option>
+                <option value="Deluxe">Deluxe</option>
+                <option value="Super Deluxe">Super Deluxe</option>
+                <option value="Classic">Classic</option>
+                <option value="Suites">Suites</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>No. of Guests</label>
+              <input type="number" class="form-control" id="Noofguests" name="Noofguests" [(ngModel)]="newroom.noOfGuests" required min="1" max="5" #guestsControl="ngModel">
+              <div *ngIf="guestsControl.invalid && (guestsControl.dirty || guestsControl.touched)" class="invalid-feedback d-block">
+                <div *ngIf="guestsControl.errors?.['required']">Number of guests is required.</div>
+                <div *ngIf="guestsControl.errors?.['min']">Number of guests must be at least 1.</div>
+                <div *ngIf="guestsControl.errors?.['max']">Number of guests cannot exceed 5.</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Price</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">$</span>
+                </div>
+                <input type="number" class="form-control" id="Price" name="Price" [(ngModel)]="newroom.price" required min="1" #priceControl="ngModel">
+              </div>
+              <div *ngIf="priceControl.invalid && (priceControl.dirty || priceControl.touched)" class="invalid-feedback d-block">
+                <div *ngIf="priceControl.errors?.['required']">Price is required.</div>
+                <div *ngIf="priceControl.errors?.['min']">Price must be at least $1.</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="image">Room Image</label>
+              <label class="btn btn-success p-0">
+                <input type="file" (change)="selectFile($event)" />
+              </label>
+              <div *ngIf="progress > 0" class="progress mt-2">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" 
+                     [style.width.%]="progress" [attr.aria-valuenow]="progress" aria-valuemin="0" aria-valuemax="100">
+                  {{progress}}%
+                </div>
+              </div>
+              <div *ngIf="message" class="alert alert-info mt-2">{{message}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group text-center">
+          <button class="btn btn-primary btn-lg me-3" type="submit" [disabled]="!roomform.form.valid || isLoading">
+            <i class="fas fa-save"></i> {{ isLoading ? 'Updating...' : 'Update Room' }}
+          </button>
+          <button class="btn btn-secondary btn-lg" type="button" (click)="goToAdmin()" [disabled]="isLoading">
+            <i class="fas fa-arrow-left"></i> Return
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

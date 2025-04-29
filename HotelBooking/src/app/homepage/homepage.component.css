@@ -1,0 +1,201 @@
+body {
+  overflow-x: hidden;
+}
+
+li {
+  list-style-type: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+body {
+  font-size: 1.2rem;
+}
+
+.small-container {
+  width: 95%;
+  margin: 0 auto;
+}
+
+.main-font-family {
+  font-family: 'Lobster Two', cursive;
+}
+
+.noto-font-family {
+  font-family: 'Noto Serif', serif;
+}
+
+.lobster-font-family {
+  font-family: 'Lobster', cursive;;
+}
+
+.roboto-font-family {
+  font-family: 'Roboto', sans-serif;
+}
+
+.home-container {
+  min-height: 100vh;
+}
+
+.hero-section {
+  background-color: var(--light-color);
+  padding: 4rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-content {
+  padding: 2rem;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 1rem;
+}
+
+.hero-content p {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+.hero-slider {
+  height: 400px;
+  position: relative;
+}
+
+.carousel-item {
+  height: 400px;
+  background-size: cover;
+  background-position: center;
+}
+
+.carousel-one {
+  background-image: url('/assets/images/img1.jpg');
+}
+
+.carousel-two {
+  background-image: url('/assets/images/img1.jpg');
+}
+
+.carousel-three {
+  background-image: url('/assets/images/img1.jpg');
+}
+
+/* About Section */
+.about-section {
+  padding: 5rem 0;
+  background: linear-gradient(to bottom, #ffffff 0%, #f8f9fa 100%);
+}
+
+.about-section .section-header h2 {
+  font-size: 2.8rem;
+  color: #1a3c4e;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.about-section .room-image {
+  background-image: url('/assets/images/img5.jpg'); 
+  background-size: cover;
+  background-position: center;
+  min-height: 350px;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(44, 62, 80, 0.15);
+}
+
+.about-section .room-details {
+  background-color: #ffffff;
+  padding: 2.5rem;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(44, 62, 80, 0.1);
+  position: relative;
+  margin-left: -30px;
+  z-index: 1;
+}
+
+.about-section .room-details .section-divider {
+  display: none;
+}
+
+.about-section .price-tag {
+  background-color: #61cfd1;
+  color: white;
+  font-weight: 600;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  position: absolute;
+  top: -15px;
+  right: 20px;
+  box-shadow: 0 2px 8px rgba(97, 207, 209, 0.3);
+}
+
+.about-section .room-details h3 {
+  font-size: 2rem;
+  color: #1a3c4e;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.about-section .room-features li {
+  color: #4a6572;
+  margin-bottom: 0.8rem;
+  font-size: 1.1rem;
+  position: relative; 
+  padding-left: 1.5rem; 
+}
+
+.about-section .room-features li:before {
+  content: '\f00c'; 
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  color: #61cfd1;
+  position: absolute; 
+  left: 0;
+  top: 1px; 
+}
+
+.about-section .btn-primary {
+  margin-top: 1.5rem;
+  padding: 0.7rem 1.8rem;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 991px) {
+  .about-section .room-details {
+    margin-left: 0;
+    margin-top: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-content {
+    text-align: center;
+    padding: 1rem;
+  }
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+  .hero-slider {
+    height: 300px;
+  }
+  .carousel-item {
+    height: 300px;
+  }
+  .about-section .room-image {
+    min-height: 300px;
+    margin-bottom: 2rem;
+  }
+  .about-section .room-details {
+    padding: 1.5rem;
+  }
+}

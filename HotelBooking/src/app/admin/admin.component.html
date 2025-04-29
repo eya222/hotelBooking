@@ -1,0 +1,245 @@
+<div class="admin-container">
+  <div class="admin-header">
+    <h2 class="text-center mb-4">Admin Dashboard</h2>
+  </div>
+
+  <mat-tab-group mat-align-tabs="center" class="admin-tabs">
+    <!-- Room List Tab -->
+    <mat-tab label="Room List">
+      <div class="table-container">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead class="thead-light">
+              <tr>
+                <th>Room Number</th>
+                <th>Category</th>
+                <th>Type</th>
+                <th>No. of Guests</th>
+                <th>Price</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let room of rooms">
+                <td>{{ room.roomNumber }}</td>
+                <td>{{ room.category }}</td>
+                <td>{{ room.roomType }}</td>
+                <td>{{ room.noOfGuests }}</td>
+                <td>${{ room.price }}</td>
+                <td>
+                  <div class="btn-group">
+                    <button (click)="updateroom(room.roomNumber)" class="btn btn-sm btn-info">
+                      <i class="fas fa-edit"></i> Edit
+                    </button>
+                    <button (click)="deleteroom(room.roomNumber)" class="btn btn-sm btn-danger">
+                      <i class="fas fa-trash"></i> Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </mat-tab>
+
+    <!-- Add Room Tab -->
+    <mat-tab label="Add Room">
+      <div class="form-container">
+        <div class="card">
+          <div class="card-header">
+            <h3>Add New Room</h3>
+          </div>
+          <div class="card-body">
+            <form #roomform="ngForm" (ngSubmit)="onSubmit(roomform)" class="needs-validation">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="RoomNumber">Room Number</label>
+                    <input type="number" class="form-control" id="RoomNumber" name="RoomNumber" [(ngModel)]="newroom.roomNumber" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Amenities</label>
+                    <div class="form-check" *ngFor="let amenity of amenities">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        [value]="amenity"
+                        (change)="onAmenityChange($event)"
+                        [checked]="selectedAmenities.includes(amenity)"
+                      />
+                      <label class="form-check-label">{{ amenity }}</label>
+                    </div>
+                  </div>
+                  
+
+                  <div class="form-group">
+                    <label for="RoomType">Room Type</label>
+                    <select id="RoomType" name="RoomType" class="form-control" [(ngModel)]="newroom.roomType" required>
+                      <option value="">Select Room Type</option>
+                      <option value="Standard Queen">Standard Queen</option>
+                      <option value="Standard King">Standard King</option>
+                      <option value="Standard">Standard</option>
+                      <option value="Deluxe">Deluxe</option>
+                      <option value="Super Deluxe">Super Deluxe</option>
+                      <option value="Classic">Classic</option>
+                      <option value="Suites">Suites</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  
+
+                  <div class="form-group">
+                    <label>No. of Guests</label>
+                    <input type="number" class="form-control" id="Noofguests" name="Noofguests" [(ngModel)]="newroom.noOfGuests" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Price</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input type="number" class="form-control" id="Price" name="Price" [(ngModel)]="newroom.price" required>
+                    </div>
+                  </div>
+
+                  
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="image">Room Image</label>
+                <label class="btn btn-success p-0">
+                  <input type="file" (change)="selectFile($event)" required />
+              </label>
+                <div *ngIf="progress > 0" class="progress mt-2">
+                  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" 
+                       [style.width.%]="progress" [attr.aria-valuenow]="progress" aria-valuemin="0" aria-valuemax="100">
+                    {{progress}}%
+                  </div>
+                </div>
+                <div *ngIf="message" class="alert alert-info mt-2">{{message}}</div>
+              </div>
+
+              <div class="form-group text-center">
+                <button class="btn btn-primary btn-lg" type="submit" [disabled]="!roomform.form.valid || isLoading">
+                  <i class="fas fa-save"></i> {{ isLoading ? 'Saving...' : 'Save Room' }}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+
+    <!-- Customer Details Tab -->
+    <mat-tab label="Customer Details">
+      <div class="table-container">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead class="thead-light">
+              <tr>
+                <th>User ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Username</th>
+                <th>Date of Birth</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let customer of customers">
+                <td>{{ customer.Id }}</td>
+                <td>{{ customer.name }}</td>
+                <td>{{ customer.email }}</td>
+                <td>{{ customer.userName }}</td>
+                <td>{{ customer.Dob | date }}</td>
+                <td>
+                  <button class="btn btn-sm btn-danger" (click)="deletecustomer(customer.Id)">
+                    <i class="fas fa-trash"></i> Delete
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </mat-tab>
+
+    <!-- Booking Details Tab -->
+    <mat-tab label="Booking Details">
+      <div class="table-container">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead class="thead-light">
+              <tr>
+                <th>Booking ID</th>
+                <th>Check-in</th>
+                <th>Check-out</th>
+                <th>Room</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let booking of bookings">
+                <td>{{ booking.id }}</td>
+                
+                <td>{{ booking.checkin | date }}</td>
+                <td>{{ booking.checkout | date }}</td>
+                
+                <td>{{ booking.roomNumber }}</td>
+                
+                <td>
+                  <button class="btn btn-success" (click)="confirmBooking(booking.id)" 
+                          [disabled]="booking.confirmed || isLoading">
+                    {{ booking.confirmed ? 'Confirmed' : 'Confirm' }}
+                  </button>
+                  <button class="btn btn-danger ms-2" (click)="deleteBooking(booking.id)" [disabled]="isLoading">
+                    Cancel
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </mat-tab>
+
+    <!-- Customer Reviews Tab -->
+    <mat-tab label="Customer Reviews">
+      <div class="reviews-container p-3">
+        <h3 class="text-center mb-4">What Our Clients Say</h3>
+
+        <!-- Placeholder for actual reviews -->
+        <div *ngIf="!reviews || reviews.length === 0" class="alert alert-info text-center">
+          No customer reviews available yet.
+        </div>
+
+        <!-- Structure to display reviews (uncomment and adapt when reviews are fetched) -->
+        <!--
+        <div *ngIf="reviews && reviews.length > 0">
+          <div *ngFor="let review of reviews" class="card review-display-card mb-3">
+            <div class="card-body">
+              <h5 class="card-title">
+                Rating: 
+                <span class="rating-stars">
+                  <i class="fas fa-star" *ngFor="let i of [].constructor(review.rating)"></i><i class="far fa-star" *ngFor="let i of [].constructor(5 - review.rating)"></i>
+                </span>
+              </h5>
+              <h6 class="card-subtitle mb-2 text-muted">By: {{ review.customerName || 'Anonymous' }} on {{ review.reviewDate | date }}</h6>
+              <p class="card-text">{{ review.comment }}</p>
+              <small class="text-muted">Booking ID: {{ review.bookingId }} | Room: {{ review.roomId }}</small>
+            </div>
+          </div>
+        </div>
+        -->
+
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+

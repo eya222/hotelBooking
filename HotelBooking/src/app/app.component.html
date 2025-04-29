@@ -1,0 +1,31 @@
+<div class="app-container">
+  <nav class="navbar">
+    <div class="container">
+      <a class="navbar-brand" href="#">Hotel Booking</a>
+      <div class="nav-links">
+        <a class="nav-link" routerLink="/home">Home</a>
+        <a class="nav-link" routerLink="/contact">Contact</a>
+        <a class="nav-link" routerLink="/login">Login</a>
+        <a class="nav-link" routerLink="/register">Register</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="page-container">
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="site-footer">
+    <div class="container text-center">
+      <p>
+        Paradise Beach, Hammamet, Tunisia<br>
+        Phone: (+216) 98 765 432 | (+216) 90 785 634<br>
+        Email: contact@eiresorts.com
+      </p>
+      <p>&copy; 2024 E&I Resorts. All Rights Reserved.</p>
+    </div>
+  </footer>
+</div>
